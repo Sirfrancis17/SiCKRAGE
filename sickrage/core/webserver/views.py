@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with SickRage.  If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import unicode_literals
+
 
 import datetime
 import io
@@ -26,7 +26,7 @@ import time
 import traceback
 import urllib
 from collections import OrderedDict
-from urlparse import urlparse, urljoin
+from urllib.parse import urljoin, urlparse
 
 import dateutil.tz
 import markdown2
@@ -4983,7 +4983,7 @@ class Logs(WebHandler):
 
         logFiles = [sickrage.app.log.logFile] + \
                    ["{}.{}".format(sickrage.app.log.logFile, x) for x in
-                    xrange(int(sickrage.app.log.logNr))]
+                    range(int(sickrage.app.log.logNr))]
 
         levelsFiltered = b'|'.join(
             [x for x in sickrage.app.log.logLevels.keys() if

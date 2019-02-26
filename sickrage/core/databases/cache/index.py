@@ -16,11 +16,10 @@
 # You should have received a copy of the GNU General Public License
 # along with SickRage.  If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import unicode_literals
 
 from hashlib import md5
 
-from CodernityDB.hash_index import HashIndex
+from CodernityDB3.hash_index import HashIndex
 
 
 class CacheLastUpdateIndex(HashIndex):

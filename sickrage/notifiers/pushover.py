@@ -18,11 +18,12 @@
 # You should have received a copy of the GNU General Public License
 # along with SickRage.  If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import unicode_literals
 
-import httplib
+
 import time
 import urllib
+
+import httplib
 import urllib2
 
 import sickrage

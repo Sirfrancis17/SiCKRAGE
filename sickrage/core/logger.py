@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with SickRage.  If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import unicode_literals
+
 
 import logging
 import os
@@ -140,9 +140,9 @@ class Logger(logging.getLoggerClass()):
             rfh_errors.setLevel(self.logLevels['ERROR'])
             self.addHandler(rfh_errors)
 
-    def makeRecord(self, name, level, fn, lno, msg, args, exc_info, func=None, extra=None):
+    def makeRecord(self, name, level, fn, lno, msg, args, exc_info, func=None, extra=None, sinfo=None):
         if (False, True)[name in self.loggers]:
-            record = super(Logger, self).makeRecord(name, level, fn, lno, msg, args, exc_info, func, extra)
+            record = super(Logger, self).makeRecord(name, level, fn, lno, msg, args, exc_info, func, extra, sinfo)
 
             try:
                 record.msg = re.sub(

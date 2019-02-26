@@ -404,7 +404,7 @@
                         <div class="row">
 
                             <div class="col-auto mx-auto">
-                                <% dates = [today.date() + datetime.timedelta(days = i) for i in xrange(7)] %>
+                                <% dates = [today.date() + datetime.timedelta(days = i) for i in range(7)] %>
                                 <% tbl_day = 0 %>
                                 % for day in dates:
                                 <% tbl_day += 1 %>

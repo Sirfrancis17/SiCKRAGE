@@ -16,13 +16,14 @@
 # You should have received a copy of the GNU General Public License
 # along with SickRage.  If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import unicode_literals
+
 
 import re
 import telnetlib
 import urllib
-import urllib2
 from xml.etree import ElementTree
+
+import urllib2
 
 import sickrage
 from sickrage.notifiers import Notifiers

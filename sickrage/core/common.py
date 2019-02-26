@@ -17,18 +17,15 @@
 # You should have received a copy of the GNU General Public License
 # along with SickRage.  If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import print_function, unicode_literals
+
 
 import operator
 import os.path
 import re
+from collections import UserDict
+from functools import reduce
 
 from sickrage.core.helpers.metadata import getFileMetadata, getResolution
-
-try:
-    from UserDict import UserDict
-except:
-    from collections import UserDict
 
 ### CPU Presets for sleep timers
 cpu_presets = {

@@ -16,12 +16,11 @@
 # You should have received a copy of the GNU General Public License
 # along with SickRage.  If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import unicode_literals
 
-from urlparse import parse_qsl
 
 import oauth2
 import twitter
+from urlparse import parse_qsl
 
 import sickrage
 from sickrage.notifiers import Notifiers
