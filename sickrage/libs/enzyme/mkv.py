@@ -16,8 +16,8 @@
 # You should have received a copy of the GNU General Public License
 # along with SickRage.  If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import unicode_literals
-from __future__ import unicode_literals
+
+
 
 import logging
 import re
@@ -333,11 +333,11 @@ class EbmlEntity:
 
 
     def get_utf8(self):
-        return unicode(self.entity_data, 'utf-8', 'replace')
+        return str(self.entity_data, 'utf-8', 'replace')
 
 
     def get_str(self):
-        return unicode(self.entity_data, 'ascii', 'replace')
+        return str(self.entity_data, 'ascii', 'replace')
 
 
     def get_id(self):

@@ -16,16 +16,18 @@
 # You should have received a copy of the GNU General Public License
 # along with SickRage.  If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import unicode_literals
+
 
 import base64
-import httplib
 import json
 import socket
 import time
 import urllib
-import urllib2
+from urllib.parse import unquote_plus
 from xml.etree import ElementTree
+
+import httplib
+import urllib2
 
 import sickrage
 from sickrage.notifiers import Notifiers
@@ -428,7 +430,7 @@ class KODINotifier(Notifiers):
 
         # if we're doing per-show
         if showName:
-            showName = urllib.unquote_plus(showName)
+            showName = unquote_plus(showName)
             tvshowid = -1
             path = ''
 

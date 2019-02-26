@@ -17,14 +17,14 @@
 # You should have received a copy of the GNU General Public License
 # along with SickRage. If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import unicode_literals
+
 
 import io
 import os.path
 import sys
-from ConfigParser import RawConfigParser, NoOptionError
 
 import requests
+from ConfigParser import RawConfigParser, NoOptionError
 
 
 def processEpisode(dir_to_process, org_nzb_name=None, status=None):

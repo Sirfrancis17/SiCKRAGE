@@ -16,7 +16,6 @@
 # You should have received a copy of the GNU General Public License
 # along with SickRage.  If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import unicode_literals
 
 import os
 import re
@@ -26,12 +25,11 @@ import time
 import traceback
 from sqlite3 import OperationalError
 
-from CodernityDB.database import RecordDeleted, RecordNotFound
-from CodernityDB.database_super_thread_safe import SuperThreadSafeDatabase
-from CodernityDB.index import IndexNotFoundException, IndexConflict, IndexException
-from CodernityDB.storage import IU_Storage
-
 import sickrage
+from CodernityDB3.database import RecordDeleted, RecordNotFound
+from CodernityDB3.database_super_thread_safe import SuperThreadSafeDatabase
+from CodernityDB3.index import IndexNotFoundException, IndexConflict, IndexException
+from CodernityDB3.storage import IU_Storage
 from sickrage.core.helpers import randomString
 
 
@@ -346,7 +344,7 @@ class srDatabase(object):
     def all(self, *args, **kwargs):
         with_doc = kwargs.pop('with_doc', True)
         for data in self.db.all(*args, **kwargs):
-            if with_doc :
+            if with_doc:
                 try:
                     doc = self.db.get('id', data['_id'])
                     yield doc

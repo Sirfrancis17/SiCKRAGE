@@ -16,15 +16,16 @@
 # You should have received a copy of the GNU General Public License
 # along with SickRage.  If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import unicode_literals
+
 
 import datetime
 import io
 import os
 from xml.etree.ElementTree import Element, ElementTree, SubElement
 
-import sickrage
 from mediabrowser import MediaBrowserMetadata
+
+import sickrage
 from sickrage.core.common import dateFormat
 from sickrage.core.exceptions import ShowNotFoundException
 from sickrage.core.helpers import replaceExtension, indentXML, chmod_as_parent

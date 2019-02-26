@@ -16,7 +16,6 @@
 # You should have received a copy of the GNU General Public License
 # along with SickRage.  If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import unicode_literals
 
 import datetime
 import io
@@ -26,7 +25,7 @@ import time
 import traceback
 import urllib
 from collections import OrderedDict
-from urlparse import urlparse, urljoin
+from urllib.parse import urljoin, urlparse, unquote_plus
 
 import dateutil.tz
 import markdown2
@@ -121,6 +120,8 @@ class BaseHandler(RequestHandler):
                                     self.request.__dict__.keys()])
             error = exc_info[1]
 
+            sickrage.app.log.error(error)
+
             self.set_header('Content-Type', 'text/html')
             self.write("""<html>
                              <title>{error}</title>
@@ -192,6 +193,10 @@ class BaseHandler(RequestHandler):
             kwargs['header'] = _('HTTP Error 500')
             kwargs['backtrace'] = RichTraceback()
             template_kwargs.update(kwargs)
+
+            sickrage.app.log.error(
+                "%s: %s" % (str(kwargs['backtrace'].error.__class__.__name__), kwargs['backtrace'].error))
+
             return self.mako_lookup.get_template('/errors/500.mako').render_unicode(**template_kwargs)
 
     def render(self, template_name, **kwargs):
@@ -746,9 +751,9 @@ class Home(WebHandler):
             pw_append = _(' with password: ') + password
 
         if result:
-            return _('Registered and Tested growl successfully ') + urllib.unquote_plus(host) + pw_append
+            return _('Registered and Tested growl successfully ') + unquote_plus(host) + pw_append
         else:
-            return _('Registration and Testing of growl failed ') + urllib.unquote_plus(host) + pw_append
+            return _('Registration and Testing of growl failed ') + unquote_plus(host) + pw_append
 
     @staticmethod
     def testProwl(prowl_api=None, prowl_priority=0):
@@ -842,12 +847,12 @@ class Home(WebHandler):
         host = clean_hosts(host)
         finalResult = ''
         for curHost in [x.strip() for x in host.split(",")]:
-            curResult = sickrage.app.notifier_providers['kodi'].test_notify(urllib.unquote_plus(curHost), username,
+            curResult = sickrage.app.notifier_providers['kodi'].test_notify(unquote_plus(curHost), username,
                                                                             password)
             if len(curResult.split(":")) > 2 and 'OK' in curResult.split(":")[2]:
-                finalResult += _('Test KODI notice sent successfully to ') + urllib.unquote_plus(curHost)
+                finalResult += _('Test KODI notice sent successfully to ') + unquote_plus(curHost)
             else:
-                finalResult += _('Test KODI notice failed to ') + urllib.unquote_plus(curHost)
+                finalResult += _('Test KODI notice failed to ') + unquote_plus(curHost)
             finalResult += "<br>\n"
 
         return finalResult
@@ -858,17 +863,17 @@ class Home(WebHandler):
 
         finalResult = ''
         for curHost in [x.strip() for x in host.split(',')]:
-            curResult = sickrage.app.notifier_providers['plex'].test_notify_pmc(urllib.unquote_plus(curHost),
+            curResult = sickrage.app.notifier_providers['plex'].test_notify_pmc(unquote_plus(curHost),
                                                                                 username,
                                                                                 password)
             if len(curResult.split(':')) > 2 and 'OK' in curResult.split(':')[2]:
-                finalResult += _('Successful test notice sent to Plex client ... ') + urllib.unquote_plus(curHost)
+                finalResult += _('Successful test notice sent to Plex client ... ') + unquote_plus(curHost)
             else:
-                finalResult += _('Test failed for Plex client ... ') + urllib.unquote_plus(curHost)
+                finalResult += _('Test failed for Plex client ... ') + unquote_plus(curHost)
             finalResult += '<br>' + '\n'
 
         sickrage.app.alerts.message(_('Tested Plex client(s): '),
-                                    urllib.unquote_plus(host.replace(',', ', ')))
+                                    unquote_plus(host.replace(',', ', ')))
 
         return finalResult
 
@@ -878,21 +883,21 @@ class Home(WebHandler):
 
         finalResult = ''
 
-        curResult = sickrage.app.notifier_providers['plex'].test_notify_pms(urllib.unquote_plus(host), username,
+        curResult = sickrage.app.notifier_providers['plex'].test_notify_pms(unquote_plus(host), username,
                                                                             password,
                                                                             plex_server_token)
         if curResult is None:
             finalResult += _('Successful test of Plex server(s) ... ') + \
-                           urllib.unquote_plus(host.replace(',', ', '))
+                           unquote_plus(host.replace(',', ', '))
         elif curResult is False:
             finalResult += _('Test failed, No Plex Media Server host specified')
         else:
             finalResult += _('Test failed for Plex server(s) ... ') + \
-                           urllib.unquote_plus(str(curResult).replace(',', ', '))
+                           unquote_plus(str(curResult).replace(',', ', '))
         finalResult += '<br>' + '\n'
 
         sickrage.app.alerts.message(_('Tested Plex Media Server host(s): '),
-                                    urllib.unquote_plus(host.replace(',', ', ')))
+                                    unquote_plus(host.replace(',', ', ')))
 
         return finalResult
 
@@ -906,16 +911,16 @@ class Home(WebHandler):
     @staticmethod
     def testEMBY(host=None, emby_apikey=None):
         host = clean_host(host)
-        result = sickrage.app.notifier_providers['emby'].test_notify(urllib.unquote_plus(host), emby_apikey)
+        result = sickrage.app.notifier_providers['emby'].test_notify(unquote_plus(host), emby_apikey)
         if result:
-            return _('Test notice sent successfully to ') + urllib.unquote_plus(host)
+            return _('Test notice sent successfully to ') + unquote_plus(host)
         else:
-            return _('Test notice failed to ') + urllib.unquote_plus(host)
+            return _('Test notice failed to ') + unquote_plus(host)
 
     @staticmethod
     def testNMJ(host=None, database=None, mount=None):
         host = clean_host(host)
-        result = sickrage.app.notifier_providers['nmj'].test_notify(urllib.unquote_plus(host), database, mount)
+        result = sickrage.app.notifier_providers['nmj'].test_notify(unquote_plus(host), database, mount)
         if result:
             return _('Successfully started the scan update')
         else:
@@ -924,7 +929,7 @@ class Home(WebHandler):
     @staticmethod
     def settingsNMJ(host=None):
         host = clean_host(host)
-        result = sickrage.app.notifier_providers['nmj'].notify_settings(urllib.unquote_plus(host))
+        result = sickrage.app.notifier_providers['nmj'].notify_settings(unquote_plus(host))
         if result:
             return '{"message": "%(message)s %(host)s", "database": "%(database)s", "mount": "%(mount)s"}' % {
                 "message": _('Got settings from'),
@@ -939,16 +944,16 @@ class Home(WebHandler):
     @staticmethod
     def testNMJv2(host=None):
         host = clean_host(host)
-        result = sickrage.app.notifier_providers['nmjv2'].test_notify(urllib.unquote_plus(host))
+        result = sickrage.app.notifier_providers['nmjv2'].test_notify(unquote_plus(host))
         if result:
-            return _('Test notice sent successfully to ') + urllib.unquote_plus(host)
+            return _('Test notice sent successfully to ') + unquote_plus(host)
         else:
-            return _('Test notice failed to ') + urllib.unquote_plus(host)
+            return _('Test notice failed to ') + unquote_plus(host)
 
     @staticmethod
     def settingsNMJv2(host=None, dbloc=None, instance=None):
         host = clean_host(host)
-        result = sickrage.app.notifier_providers['nmjv2'].notify_settings(urllib.unquote_plus(host), dbloc,
+        result = sickrage.app.notifier_providers['nmjv2'].notify_settings(unquote_plus(host), dbloc,
                                                                           instance)
         if result:
             return '{"message": "NMJ Database found at: %(host)s", "database": "%(database)s"}' % {"host": host,
@@ -2384,7 +2389,7 @@ class HomeAddShows(Home):
         else:
             root_dirs = rootDir
 
-        root_dirs = [urllib.unquote_plus(x) for x in root_dirs]
+        root_dirs = [unquote_plus(x) for x in root_dirs]
 
         if sickrage.app.config.root_dirs:
             default_index = int(sickrage.app.config.root_dirs.split('|')[0])
@@ -2769,7 +2774,7 @@ class HomeAddShows(Home):
         elif not isinstance(shows_to_add, list):
             shows_to_add = [shows_to_add]
 
-        shows_to_add = [urllib.unquote_plus(x) for x in shows_to_add]
+        shows_to_add = [unquote_plus(x) for x in shows_to_add]
 
         promptForSettings = checkbox_to_value(promptForSettings)
 
@@ -4983,7 +4988,7 @@ class Logs(WebHandler):
 
         logFiles = [sickrage.app.log.logFile] + \
                    ["{}.{}".format(sickrage.app.log.logFile, x) for x in
-                    xrange(int(sickrage.app.log.logNr))]
+                    range(int(sickrage.app.log.logNr))]
 
         levelsFiltered = b'|'.join(
             [x for x in sickrage.app.log.logLevels.keys() if

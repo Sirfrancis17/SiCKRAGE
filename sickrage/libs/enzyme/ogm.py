@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with SickRage.  If not, see <http://www.gnu.org/licenses/>.
 
-from __future__ import unicode_literals
+
 
 __all__ = ['Parser']
 
@@ -27,6 +27,7 @@ import stat
 import struct
 
 import core
+
 from .exceptions import ParseError
 
 # get logging object
@@ -288,7 +289,7 @@ class Ogm(core.AVContainer):
     def _extractHeaderString(self, header):
         len = struct.unpack('<I', header[:4])[0]
         try:
-            return (len + 4, unicode(header[4:4 + len], 'utf-8'))
+            return (len + 4, str(header[4:4 + len], 'utf-8'))
         except (KeyError, IndexError, UnicodeDecodeError):
             return (len + 4, None)
 
