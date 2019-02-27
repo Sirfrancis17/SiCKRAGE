@@ -1,6 +1,7 @@
 # Changelog
 
-- * a2437ac - 2019-02-25: Migration from Python 2 to Python 3.7.x 
+- * fd80500 - 2019-02-25: Migration from Python 2 to Python 3.7.x 
+- * 7749b02 - 2019-02-25: Migration from Python 2 to Python 3.7.x 
 - * a72ca25 - 2019-02-24: Release v9.4.77 
 - * b09d78a - 2019-02-24: Added Anime regex for Erai-raws 
 - * e0f2db6 - 2019-02-24: Release v9.4.76 
